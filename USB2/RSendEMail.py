@@ -21,8 +21,12 @@ def send_email(message):
     except Exception as _ex:
         return(-1)
     
-def main():
-    message = "WATER LEAKEGE! - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+def main(recievedCode):
+    message = ""
+    if (recievedCode == 1):
+        message = "WATER LEAKEGE! - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+    if (recievedCode == -1):
+        message = "WATER LEAKEGE! - VALVE IS NOT CLOSED!" + datetime.now().strftime("%d.%m.%Y %H:%M:%S")    
     return(send_email(message))
 
 if __name__ == "__main__":
