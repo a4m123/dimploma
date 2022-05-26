@@ -4,7 +4,7 @@ import time
 import subprocess
 
 def main(openedValve): #0 - false (close), 1 - true 
-    ser = serial.Serial('/dev/ttyACM2', 9600, timeout=1)
+    ser = serial.Serial('/dev/ttyACM1', 9600, timeout=1)
     ser.reset_input_buffer()
     
     line = ""
