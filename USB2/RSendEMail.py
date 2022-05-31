@@ -6,6 +6,7 @@ from datetime import datetime
 from email.mime.text import MIMEText
 
 def send_email(message):
+    launch_webpage()
     reciever = "artem.malkin.2000@gmail.com"
     sender = "raspberrywaterleakage@gmail.com"
     password = "Zmpqfgh24"
@@ -20,7 +21,11 @@ def send_email(message):
         return(1)
     except Exception as _ex:
         return(-1)
-    
+
+def launch_webpage():
+    os.system("set FLASK_APP=stream_video.py")
+    os.system("flask run --host=0.0.0.0")
+
 def main(recievedCode):
     message = ""
     if (recievedCode == 1):
