@@ -5,3 +5,5 @@
 AListenPeople - сохранить значения людей, когда powerOff (https://randomnerdtutorials.com/arduino-eeprom-explained-remember-last-led-state/)
 
 RMaster -> RListenPeople? - возможность заносить вручную информацию о людях в AListenPeople
+
+stream_video.py - защиту от стороннего подключения, БД, удалённое подключение
