@@ -1,6 +1,7 @@
 # dimploma
 Система контроля протечек воды
 ***
-WEBCAM - содержит программный код для работы RaspPi с веб-камерой через OpenCV
+Что делать:
+AListenPeople - сохранить значения людей, когда powerOff (https://randomnerdtutorials.com/arduino-eeprom-explained-remember-last-led-state/)
 
-nRF - содержит код для Arduino и RaspPi для их общения через nrf24l01
+RMaster -> RListenPeople? - возможность заносить вручную информацию о людях в AListenPeople
