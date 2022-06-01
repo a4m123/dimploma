@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
+import imp
 import serial
 import subprocess
+import RDefinePort
 
 def main():  
-    ser = serial.Serial('/dev/ttyACM0',9600) 
+    serString = '/dev/ttyACM' + str(RDefinePort.main(100))
+    ser = serial.Serial(serString, 9600, timeout=1)
     waterLeakage = 0
     while True:
         try:

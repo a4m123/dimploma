@@ -2,9 +2,11 @@
 import serial
 import time
 import subprocess
+import RDefinePort
 
 def main(openedValve): #0 - false (close), 1 - true 
-    ser = serial.Serial('/dev/ttyACM2', 9600, timeout=1)
+    serString = '/dev/ttyACM' + str(RDefinePort.main(300))
+    ser = serial.Serial(serString, 9600, timeout=1)
     ser.reset_input_buffer()
     
     line = ""
@@ -17,8 +19,10 @@ def main(openedValve): #0 - false (close), 1 - true
             control = control + 1
             time.sleep(1)
             if (line == "3"):
+                ser.close()
                 return (1)
             if control == 5:
+                ser.close()
                 return (-1)
 
     elif (openedValve == 1):
@@ -29,13 +33,12 @@ def main(openedValve): #0 - false (close), 1 - true
             control = control + 1
             time.sleep(1)
             if (line == "4"):
+                ser.close()
                 return (2)
             if control == 5:
-                return (-2)             
-
-    
+                ser.close()
+                return (-2)              
 
 if __name__=='__main__':
     main()
-
     

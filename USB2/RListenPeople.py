@@ -2,10 +2,11 @@
 import serial
 import json
 import subprocess
-import RListenWater, RCloseValve, RSendEMail
+import RListenWater, RCloseValve, RSendEMail, RDefinePort
 
 def main():  
-    ser = serial.Serial('/dev/ttyACM2',9600) 
+    serString = '/dev/ttyACM' + str(RDefinePort.main(200))
+    ser = serial.Serial(serString, 9600, timeout=1)
     counterPeople = -1
     resultCloseValve = 0
     resultSendMail = 0
@@ -32,11 +33,12 @@ def main():
                       resultSendMail = RSendEMail.main(10)
                   elif (resultCloseValve == -1):
                       resultSendMail = RSendEMail.main(11)
-
-        information = {'waterLeakage': resultWaterLeakage, 'closedValve': resultCloseValve, 'sendedMail': resultSendMail}
-        infoFile = open("info.json", "w")
-        json.dump(information, infoFile)
-        
+          
+          information = {'waterLeakage': resultWaterLeakage, 'closedValve': resultCloseValve, 'sendedMail': resultSendMail}
+          infoFile = open("info.json", "w")
+          json.dump(information, infoFile)
+            
+            
         except:
             pass
     
