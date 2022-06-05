@@ -2,7 +2,6 @@
 import time
 import cv2 
 from flask import Flask, render_template, Response
-from scipy import rand
 import json
 
 app = Flask(__name__)
