@@ -11,6 +11,7 @@ void setup() {
 
 void loop() {
   if (flagDefinedPort == false){
+    Serial.println(":(");
     flagDefinedPort = definePort();
   }
   
