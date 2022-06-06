@@ -10,6 +10,8 @@ def main():
     counterPeople = -1
     resultCloseValve = 0
     resultSendMail = 0
+    resultWebInterrupt = 0
+
     flag = 0
     while True:
         try:
@@ -34,7 +36,7 @@ def main():
                   elif (resultCloseValve == -1):
                       resultSendMail = RSendEMail.main(11)
           
-          information = {'waterLeakage': resultWaterLeakage, 'closedValve': resultCloseValve, 'sendedMail': resultSendMail}
+          information = {'waterLeakage': isThereWaterLeakage, 'closedValve': resultCloseValve, 'sendedMail': resultSendMail, 'webInterrupt': resultWebInterrupt}
           infoFile = open("info.json", "w")
           json.dump(information, infoFile)
         

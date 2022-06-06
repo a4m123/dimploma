@@ -6,14 +6,17 @@ with open('info.json') as data:
     isThereWebInterruptGlobal = data[4] 
 
 while True:
-    time.sleep(4)
+    time.sleep(2)
     with open('info.json') as data:
-        isThereWaterLeakage = data[4] 
-    if (isThereWaterLeakage != isThereWebInterruptGlobal):
-        isThereWebInterruptGlobal = isThereWaterLeakage
+        isThereWebInterrupt = data[4] 
+    if (isThereWebInterrupt == isThereWebInterruptGlobal):
+        print('no html button pushed')
+    elif (isThereWebInterrupt != isThereWebInterruptGlobal):
+        print('html button pushed')
+        isThereWebInterruptGlobal = isThereWebInterrupt
         with open('info.json') as data:
-            wasTheValveClosed = data[1] 
-        if (wasTheValveClosed == 1):
+            isTheValveClosed = data[1] 
+        if (isTheValveClosed == 1):
             RCloseValve.main(1)
-        elif (wasTheValveClosed == 0):
+        elif (isTheValveClosed == 0):
             RCloseValve.main(0)
