@@ -1,0 +1,2 @@
+https://tlfong01.blog/2020/01/23/nrf24l01-rpi-python-programming/ - nrf24l01 rpi
+https://stackoverflow.com/questions/56553154/nrf24l01-python-library-for-raspberry

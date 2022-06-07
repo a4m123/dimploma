@@ -7,7 +7,9 @@ def main(code):
             ser = serial.Serial(trySerial, 9600)
             controlStr = str(code) + "\n"
             ser.write(bytes(controlStr, 'utf-8'))
-            line = ser.readline().decode('utf-8').rstrip()
+            line = ""
+            while (line == ""):
+                line = ser.readline().decode('utf-8').rstrip()
             ser.close()
             if (line == "1"):
                 return i
