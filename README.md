@@ -1,7 +1,7 @@
 # dimploma
 Система контроля протечек воды
 ***
-Умереть, но сделать.
+Блаженен путь через тернии к звёздам, от относительного к абсолютному.
 
 Что делать:
 AListenPeople - сохранить значения людей, когда powerOff (https://randomnerdtutorials.com/arduino-eeprom-explained-remember-last-led-state/)

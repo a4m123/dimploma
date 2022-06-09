@@ -1,8 +1,0 @@
-1. В терминале:
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install apache2
-sudo service apache2 restart
-sudo service apache2 status (должен быть active(running) с указанным Main PID)
-если apache2 не работает:
-    sudo service apache2 start

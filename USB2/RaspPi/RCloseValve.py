@@ -4,7 +4,7 @@ import time
 import subprocess
 import RDefinePort
 
-def main(openedValve): #0 - false (close), 1 - true 
+def main(openedValve): #0 - false (будем закрывать кран), 1 - true (будем открывать кран) 
     serString = '/dev/ttyACM' + str(RDefinePort.main(300))
     ser = serial.Serial(serString, 9600, timeout=1)
     ser.reset_input_buffer()
@@ -26,7 +26,7 @@ def main(openedValve): #0 - false (close), 1 - true
                 return (-1)
 
     elif (openedValve == 1):
-       while ((line != "5") or (control != 5)): #4-confirmaton of recieved code by Arduino to close valve 
+       while ((line != "5") or (control != 5)): #4-confirmaton of recieved code by Arduino to open valve 
             ser.write(b"2\n")
             line = ser.readline().decode('utf-8').rstrip()
             print(line)

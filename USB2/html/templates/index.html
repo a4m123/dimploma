@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Streaming </title>
+    <script>
+    'use strict';
+    let arrayLength = 8;
+    function Main(){
+      document.getElementById('out').innerHTML = arrayLength;
+      arrayLength = arrayLength + 1;
+      document.getElementById('button').addEventListener('click', download_txt);  
+    }	
+
+    function download_text(){
+      var textToSave = "12345436234";
+      var hiddenElement = document.createElement('a');
+
+      hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
+      hiddenElement.target = '_blank';
+      hiddenElement.download = 'myFile.txt';
+      hiddenElement.click();
+    }
+    </script>
+
+  </head>
+  <body>
+    <img src="{{ url_for('video_feed') }}">
+    <p>a4m123</p>
+    <p id="waterLeakage" style="font-size: 50px">Протечка воды: {{waterLeakage}}</p>
+    <p id="closedValve" style="font-size: 50px">Состояние крана: {{closedValve}}</p>
+    <p id="sendedMail" style="font-size: 50px">Отправлено ли уведомление: {{sendedMail}}</p>
+    <p id="webInterrupt" style="font-size: 50px">Было ли изменение состояния крана: {{webInterrupt}}</p>
+    <form class="grid" action="/button" method="POST">
+      <center><input class="file_submit" type="Submit" value="ИЗМЕНИТЬ СОСТОЯНИЕ КРАНА" style="font-size: 50px"></center>
+    </form>
+  </body>
+</html>
