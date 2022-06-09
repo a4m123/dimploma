@@ -2,8 +2,6 @@ import time
 import cv2 
 from flask import Flask, render_template, Response, request
 import json
-import sys
-sys.path.insert(1, 'A:\Профиль\artem\GitHub\dimploma\USB2\RaspPi')
 import RCloseValve
 
 app = Flask(__name__)
@@ -47,11 +45,13 @@ def button():
     #считывание текущей информации
     jsonOpen = open("info.json", "r")
     jsonStr = getInfoFromJSON(jsonOpen)
-    if(int(jsonStr[4]) == 0):
+    if(jsonStr[4] == str(0)):
         action = RCloseValve.main(0)
-    elif(int(jsonStr[4]) == 1):
+        pass
+    elif(jsonStr[4] == str(1)):
         action = RCloseValve.main(1)
-
+        pass
+    action = 1
     if ((action == -2) or (action == -1)):
         closedValveInfoNew = int(jsonStr[4])
     elif (action == 1):

@@ -1,7 +1,7 @@
 int recievedCode;
 int resultStatus;
 int data;
-bool flagPortDefined = false;
+bool flagPortDefined = true; // ИСПРАВИТЬ НА FALSE
 bool definePort();
 
 void setup() {
@@ -35,7 +35,7 @@ void loop() {
   }
 
   else if (Serial.available() <= 0){
-    flagPortDefined = false;
+    flagPortDefined = true; // ИСПРАВИТЬ НА FALSE
       if (data == 1){ // закрытие крана
       digitalWrite(A0, HIGH);
     }

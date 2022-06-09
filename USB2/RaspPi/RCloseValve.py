@@ -5,7 +5,7 @@ import subprocess
 import RDefinePort
 
 def main(openedValve): #0 - false (будем закрывать кран), 1 - true (будем открывать кран) 
-    serString = '/dev/ttyACM' + str(RDefinePort.main(300))
+    serString = 'COM3'
     ser = serial.Serial(serString, 9600, timeout=1)
     ser.reset_input_buffer()
     
