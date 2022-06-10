@@ -45,13 +45,13 @@ def button():
     #считывание текущей информации
     jsonOpen = open("info.json", "r")
     jsonStr = getInfoFromJSON(jsonOpen)
-    if(jsonStr[4] == str(0)):
-        action = RCloseValve.main(0)
+    if(jsonStr[4] == str(0)): #если кран не закрыт
+        action = RCloseValve.main(0) #закрываем кран
         pass
     elif(jsonStr[4] == str(1)):
         action = RCloseValve.main(1)
         pass
-    action = 1
+    #action = 1
     if ((action == -2) or (action == -1)):
         closedValveInfoNew = int(jsonStr[4])
     elif (action == 1):
