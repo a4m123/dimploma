@@ -1,17 +1,22 @@
+from crypt import methods
 import time
 import cv2 
 from flask import Flask, render_template, Response, request
 import json
-import RCloseValve
+#import RCloseValve
+from random import randrange
+
+abc = randrange(10)
+print(abc)
 
 app = Flask(__name__)
-def gen():
-    cap = cv2.VideoCapture(-1)
-    while(cap.isOpened()):
-        ret, img = cap.read()
-        if ret == True:
-            img = cv2.resize(img, (0,0), fx=2, fy=2) 
-            frame = cv2.imencode('.jpg', img)[1].tobytes()
+def generateVideo():
+    cameraCapture = cv2.VideoCapture(-1)
+    while(cameraCapture.isOpened()):
+        returnStatus, image = cameraCapture.read()
+        if returnStatus == True:
+            image = cv2.resize(image, (0,0), fx=2, fy=2) 
+            frame = cv2.imencode('.jpg', image)[1].tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
             time.sleep(0.1)
         else: 
@@ -35,9 +40,9 @@ def index():
 #    return render_template('index.html', waterLeakage = jsonStr[2], closedValve = jsonStr[4], sendedMail=jsonStr[6], webInterrupt=jsonStr[8])       
     return render_template('index.html', waterLeakage = waterLeakageInfo, closedValve = closedValveInfo, sendedMail=sendedMailInfo, webInterrupt=webInterruptInfo)       
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen(),
+@app.route('/video')
+def video():
+    return Response(generateVideo(),
                    mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 @app.route('/button', methods = ['POST', 'GET'])
@@ -47,18 +52,18 @@ def button():
     jsonStr = getInfoFromJSON(jsonOpen)
     print("jsonStr[4] = " +str(jsonStr[4]))
     if(jsonStr[4] == str(0)): #если кран не закрыт
-        action = RCloseValve.main(0) #закрываем кран
+        #action = RCloseValve.main(0) #закрываем кран
         pass
     elif(jsonStr[4] == str(1)):
-        action = RCloseValve.main(1)
+        #action = RCloseValve.main(1)
         pass
     #action = 1
     if ((action == -2) or (action == -1)):
         closedValveInfoNew = int(jsonStr[4])
     elif (action == 1):
-        closedValveInfoNew = 1
-    elif (action == 2):
         closedValveInfoNew = 0
+    elif (action == 2):
+        closedValveInfoNew = 1
     print ("app: closeVINew = " +str(closedValveInfoNew))
     #обновление информации о webInterrupt
     information = {'waterLeakage': int(jsonStr[2]), 'closedValve': int(closedValveInfoNew), 'sendedMail': int(jsonStr[6]), 'webInterrupt': 1}
