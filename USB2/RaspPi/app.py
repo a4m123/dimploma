@@ -6,7 +6,7 @@ import RCloseValve
 
 app = Flask(__name__)
 def gen():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(-1)
     while(cap.isOpened()):
         ret, img = cap.read()
         if ret == True:
@@ -45,6 +45,7 @@ def button():
     #считывание текущей информации
     jsonOpen = open("info.json", "r")
     jsonStr = getInfoFromJSON(jsonOpen)
+    print("jsonStr[4] = " +str(jsonStr[4]))
     if(jsonStr[4] == str(0)): #если кран не закрыт
         action = RCloseValve.main(0) #закрываем кран
         pass
@@ -58,9 +59,12 @@ def button():
         closedValveInfoNew = 1
     elif (action == 2):
         closedValveInfoNew = 0
+    print ("app: closeVINew = " +str(closedValveInfoNew))
     #обновление информации о webInterrupt
-    information = {'waterLeakage': int(jsonStr[2]), 'closedValve': closedValveInfoNew, 'sendedMail': int(jsonStr[6]), 'webInterrupt': 1}
-    jsonOpen.close()
+    information = {'waterLeakage': int(jsonStr[2]), 'closedValve': int(closedValveInfoNew), 'sendedMail': int(jsonStr[6]), 'webInterrupt': 1}
+    print ("app: closeVINew = " +str(information))
+    print (jsonOpen.close())
+    print ("app - ive tried to close jsonOpen")
 
     #заносим актуальную информацию 
     infoFile = open("info.json", "w")
