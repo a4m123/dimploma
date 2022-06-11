@@ -1,13 +1,8 @@
-from crypt import methods
 import time
 import cv2 
 from flask import Flask, render_template, Response, request
 import json
-#import RCloseValve
-from random import randrange
-
-abc = randrange(10)
-print(abc)
+import RCloseValve
 
 app = Flask(__name__)
 def generateVideo():
@@ -52,12 +47,11 @@ def button():
     jsonStr = getInfoFromJSON(jsonOpen)
     print("jsonStr[4] = " +str(jsonStr[4]))
     if(jsonStr[4] == str(0)): #если кран не закрыт
-        #action = RCloseValve.main(0) #закрываем кран
+        action = RCloseValve.main(0) #закрываем кран
         pass
     elif(jsonStr[4] == str(1)):
-        #action = RCloseValve.main(1)
+        action = RCloseValve.main(1)
         pass
-    #action = 1
     if ((action == -2) or (action == -1)):
         closedValveInfoNew = int(jsonStr[4])
     elif (action == 1):
