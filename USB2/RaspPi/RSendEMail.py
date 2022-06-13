@@ -4,8 +4,9 @@ import os
 import time
 from datetime import datetime
 from email.mime.text import MIMEText
+import socket
 
-def send_email(message):
+def send_email(message):  
     launch_webpage()
     reciever = "artem.malkin.2000@gmail.com"
     sender = "raspberrywaterleakage@gmail.com"
@@ -23,21 +24,22 @@ def send_email(message):
         return(-1)
 
 def launch_webpage():
-    os.system("set FLASK_APP=stream_video.py")
     os.system("flask run --host=0.0.0.0")
 
 def main(recievedCode):
+    hostname=socket.gethostname()   
+    IPAdrress=socket.gethostbyname(hostname)   
     message = ""
     if (recievedCode == 1):
-        message = "WATER LEAKEGE! - Valve is closed - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+        message = "WATER LEAKEGE! - Valve is closed - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S" + ". Check web-page: " + IPAdrress + ":5000/login")
     elif (recievedCode == -1):
-        message = "WATER LEAKEGE! - VALVE IS NOT CLOSED! - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S")    
+        message = "WATER LEAKEGE! - VALVE IS NOT CLOSED! - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S" + ". Check web-page: " + IPAdrress + ":5000/login")    
     elif (recievedCode == 10):
-        message = "No people in home. Valve is closed - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+        message = "No people in home. Valve is closed - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S" + ". Check web-page: " + IPAdrress + ":5000/login")
     elif (recievedCode == 11):
-        message = "No people in home. Valve is not closed - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+        message = "No people in home. Valve is not closed - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S" + ". Check web-page: " + IPAdrress + ":5000/login")
     elif (recievedCode == 20):
-        message = "People are in home. Valve is opened - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+        message = "People are in home. Valve is opened - " + datetime.now().strftime("%d.%m.%Y %H:%M:%S" + ". Check web-page: " + IPAdrress + ":5000/login")
     return(send_email(message))
 
 if __name__ == "__main__":

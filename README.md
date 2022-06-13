@@ -4,6 +4,8 @@
 Блаженен путь через тернии к звёздам, от относительного к абсолютному.
 
 Что делать:
+!БД - запись в таблицу - только через RPi. Авторизация 
+
 AListenPeople - сохранить значения людей, когда powerOff (https://randomnerdtutorials.com/arduino-eeprom-explained-remember-last-led-state/)
 
 RMaster -> RListenPeople? - возможность заносить вручную информацию о людях в AListenPeople

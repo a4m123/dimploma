@@ -1,10 +1,42 @@
+from crypt import methods
+from email.policy import default
+from pickle import TRUE
 import time
+from unicodedata import name
 import cv2 
-from flask import Flask, render_template, Response, request
+from flask import Flask, redirect, render_template, Response, request
 import json
 import RCloseValve
+import flask_login
+import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+import bcrypt
+#from sqlalchemy import false, true
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+#БД
+#id name    password    isAllowedToClose
+#0  Иван    1234        Yes
+#1  Мария   2345        No
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(16), nullable = False)
+    password = db.Column(db.Integer, nullable = False)
+    isAllowedToClose = db.Column(db.Boolean, default = True)
+
+def createUser():
+    user = User(name = "Admin", password = bcrypt.hashpw(b"1qazxsw2", bcrypt.gensalt()))
+    db.session.add(user)
+    db.session.commit()
+
+def checkUsers():
+    users = User.query.order_by(User.id).all()
+    return(users)
+
 def generateVideo():
     cameraCapture = cv2.VideoCapture(-1)
     while(cameraCapture.isOpened()):
@@ -24,6 +56,32 @@ def getInfoFromJSON(jsonFile):
     jsonStr = jsonTempStr.split()
     return jsonStr
 
+def controlUser(nameInput = "admin", passwordInput = b"1qazxsw2"):
+    connectDB = sqlite3.connect("USB2/RaspPi/users.db")
+    cursorDB = connectDB.cursor()
+
+    for row in cursorDB.execute('SELECT * FROM user;'):
+        if ((nameInput == row[1]) and bcrypt.checkpw(passwordInput, row[2].encode('utf-8'))):
+            connectDB.close()
+            return(True)
+        else:
+            pass
+    connectDB.close()
+    return(False)
+
+@app.route('/login', methods=['POST','GET'])
+def login():
+    if (request.method != "POST"):
+        return render_template('login.html')       
+
+    elif (request.method == "POST"):
+        name = request.form['name']
+        password = request.form['password']
+        if (controlUser(nameInput = name, passwordInput = password.encode('utf-8')) == True):
+            return redirect('/')
+        else:
+            return render_template('login.html')       
+ 
 @app.route('/')
 def index():
     jsonOpen = open("info.json", "r")
@@ -32,8 +90,7 @@ def index():
     closedValveInfo = "закрыт" if (jsonStr[4] == str(1)) else "открыт"
     sendedMailInfo = "да" if (jsonStr[6] == str(1)) else "нет"
     webInterruptInfo = "есть вмешательство" if (jsonStr[8] == str(1)) else "нет вмешательства"
-#    return render_template('index.html', waterLeakage = jsonStr[2], closedValve = jsonStr[4], sendedMail=jsonStr[6], webInterrupt=jsonStr[8])       
-    return render_template('index.html', waterLeakage = waterLeakageInfo, closedValve = closedValveInfo, sendedMail=sendedMailInfo, webInterrupt=webInterruptInfo)       
+    return render_template('index.html', waterLeakage = waterLeakageInfo, closedValve = closedValveInfo, sendedMail=sendedMailInfo, webInterrupt=webInterruptInfo, users = checkUsers())       
 
 @app.route('/video')
 def video():
