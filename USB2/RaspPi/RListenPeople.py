@@ -15,7 +15,7 @@ def main():
     flag = 0
     while True:
         try:
-          counterPeople = int(ser.readline(),10) # извлекаем из строки все символы, кроме служебных (по типу /r)
+          counterPeople = int(ser.readline(),10)
           print(counterPeople)
           if (counterPeople > 0):
             with open('info.json') as data:

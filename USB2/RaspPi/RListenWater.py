@@ -12,7 +12,7 @@ def main():
         try:
           waterLeakage = int(ser.readline(),10) # извлекаем из строки все символы, кроме служебных (по типу /r)
           print(waterLeakage)
-          if (waterLeakage > 610):
+          if (waterLeakage > 200):
             print("WATER LEAKAGE!")
             return(1)
         except:
