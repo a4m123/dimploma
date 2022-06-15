@@ -7,6 +7,7 @@ from email.mime.text import MIMEText
 import socket
 
 def send_email(message):  
+    launch_webpage()
     reciever = "artem.malkin.2000@gmail.com"
     sender = "raspberrywaterleakage@gmail.com"
     password = "Zmpqfgh24"
@@ -31,7 +32,7 @@ def addEventLog(message):
         eventLog.write(message)
 
 def launch_webpage():
-    os.system("flask run --host=0.0.0.0")
+    os.system("flask run")
 
 def main(recievedCode):
     hostname=socket.gethostname()   

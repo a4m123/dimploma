@@ -3,6 +3,7 @@ from email.policy import default
 from pickle import TRUE
 import time
 from unicodedata import name
+from sqlalchemy import false, true
 import cv2 
 from flask import Flask, redirect, render_template, Response, request
 import json
@@ -17,6 +18,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+doWeHavePermission = false
 
 #БД
 #id name    password    isAllowedToClose
@@ -78,19 +80,25 @@ def login():
         name = request.form['name']
         password = request.form['password']
         if (controlUser(nameInput = name, passwordInput = password.encode('utf-8')) == True):
+            doWeHavePermission = true
             return redirect('/')
         else:
-            return render_template('login.html')       
+            doWeHavePermission = false
+            return render_template('login.html')  
+                 
  
 @app.route('/')
 def index():
-    jsonOpen = open("info.json", "r")
-    jsonStr = getInfoFromJSON(jsonOpen)
-    waterLeakageInfo = "есть протечка" if (jsonStr[2] == str(1)) else "нет протечки"
-    closedValveInfo = "закрыт" if (jsonStr[4] == str(1)) else "открыт"
-    sendedMailInfo = "да" if (jsonStr[6] == str(1)) else "нет"
-    webInterruptInfo = "есть вмешательство" if (jsonStr[8] == str(1)) else "нет вмешательства"
-    return render_template('index.html', waterLeakage = waterLeakageInfo, closedValve = closedValveInfo, sendedMail=sendedMailInfo, webInterrupt=webInterruptInfo, users = checkUsers())       
+    if (doWeHavePermission == true):
+        jsonOpen = open("info.json", "r")
+        jsonStr = getInfoFromJSON(jsonOpen)
+        waterLeakageInfo = "есть протечка" if (jsonStr[2] == str(1)) else "нет протечки"
+        closedValveInfo = "закрыт" if (jsonStr[4] == str(1)) else "открыт"
+        sendedMailInfo = "да" if (jsonStr[6] == str(1)) else "нет"
+        webInterruptInfo = "есть вмешательство" if (jsonStr[8] == str(1)) else "нет вмешательства"
+        return render_template('index.html', waterLeakage = waterLeakageInfo, closedValve = closedValveInfo, sendedMail=sendedMailInfo, webInterrupt=webInterruptInfo, users = checkUsers())       
+    else:
+        return render_template('index.html')
 
 @app.route('/video')
 def video():

@@ -6,7 +6,7 @@
 int recievedCode = 0;
 int resultStatus = 0;
 int data = 0;
-bool flagPortDefined = true; // ИСПРАВИТЬ НА FALSE
+bool flagPortDefined = false;
 bool definePort();
 const uint64_t pipe = 0xF0F1F2F3F4LL;
 RF24 radioTransmit(9,53);
@@ -50,7 +50,7 @@ void loop() {
   }
 
   else if (Serial.available() <= 0){
-    flagPortDefined = true; // ИСПРАВИТЬ НА FALSE
+    flagPortDefined = false;
       if (data == 1){ // закрытие крана
       radioTransmit.write(&data, sizeof(data)); // отправляем данные и указываем байты
       digitalWrite(A0, HIGH);
