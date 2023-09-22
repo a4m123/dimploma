@@ -10,7 +10,7 @@ def send_email(message):
     launch_webpage()
     reciever = "artem.malkin.2000@gmail.com"
     sender = "raspberrywaterleakage@gmail.com"
-    password = "Zmpqfgh24"
+    password = "1324564"
 
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
